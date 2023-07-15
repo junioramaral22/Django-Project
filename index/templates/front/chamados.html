@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Central de Suporte</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/assets/img/suporte-online.png" rel="icon">
+  <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <script src="static/assets/js/script.js"></script>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header ">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+    
+          <a href="/" class="logo d-flex align-items-center">
+            <img src="static/assets/img/suporte-online.png" alt="">
+            <span>Suporte</span>
+          </a>
+    
+          <nav id="navbar" class="navbar">
+            <ul>
+            
+    
+             
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"style="opacity: 0;"></i>
+          </nav><!-- .navbar -->
+    
+        </div>
+      </header><!-- End Header -->
+
+  <div class="main-content" id="div-da-main" style="padding-top: 30px">
+    <div class="container">
+        <h1>Gerenciamento de Protocolos de Suporte</h1>
+        
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <strong class="title">Novo Protocolo</strong>
+                <div class="close-container">
+                    <div class="close-btn" onclick="closeModal()">
+                        <script>
+                            function closeModal() {
+                                const modal = document.querySelector('#modal');
+                                modal.style.display = 'none';
+                            }
+                        </script>
+                        <div class="close left"></div>
+                        <div class="close right"></div>
+                    </div>
+                </div>
+                <form id="protocoloForm"  class="protocolo-form" method="POST" action="/chamados">
+                  
+                  {% csrf_token %}
+                  
+                    {{ form.as_p }}
+                  
+                  
+                    
+                </form>
+                <button form="protocoloForm" class="adicionar" type="submit" action"/chamados">Criar Protocolo</button>
+            </div>
+        </div>
+        
+        <div id="edit-modal" class="edit-modal">
+            <div class="edit-modal-content">
+                <strong>Editar Protocolo</strong>
+                <div class="close-container">
+                    <div class="close-btn" onclick="closeEditModal()">
+                        <div class="close left"></div>
+                        <div class="close right"></div>
+                    </div>
+                </div>
+                <form id="editForm" class="protocolo-edit-form">
+                    <label class="text" for="editNome">Nome:</label>
+                    <input class="field" type="text" id="editNome" required>
+                    
+                    <label class="text" for="editLocalizacao">Localização:</label>
+                    <input class="field" type="text" id="editLocalizacao" required>
+                    <label class="text" for="editPatrimonio">N.º do Patrimônio:</label>
+                    <input class="field" type="text" id="editPatrimonio" maxlength="6" required>
+                    
+                    <input type="hidden" id="editChamado">
+                </form>
+                <button form="editForm" class="adicionar" type="submit">Salvar alterações</button>
+            </div>
+        </div>
+        <div class="menu">
+            <h2>Protocolos</h2>
+            <div>
+                
+                <button class="novo-protocolo-btn" data-toggle="modal" data-target="#myModal" onclick="openModal()">Novo Protocolo</button>
+                <script>function openModal() {
+                    const modal = document.querySelector('#modal');
+                    modal.style.display = 'block';
+                }</script>
+            </div>
+
+<div class="modal" id="#myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                   
+                    <th>Localização</th>
+                    <th>N.º do Patrimônio</th>
+                    
+                    
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="protocolosList">
+                {% for ticket in tickets %}
+                <tr>
+                    <td> {{ticket.nome}}</td>
+                    <td> {{ticket.localizacao}} </td>
+                    <td> {{ticket.patrimonio}} </td>
+                    <td>
+                      <div class="menu-container">
+                          <div class="menu-button">
+
+                              <div>
+                                <button type="submit" class="botaoEdit" onclick="openModal()">
+                                  <img src="static/assets/img/edit.png">
+                                </button>
+                              
+
+                              </div>
+                              <img src="static/assets/img/remove.png">
+                              
+                          </div>
+                          
+                              
+                            
+                            
+
+                          <div class="dropdown-menu hidden">
+                              <button class="edit-btn" onclick="openEditModal()" data-chamado="${protocolo.chamado}">Editar</button>
+                              <button class="delete-btn" data-chamado="${protocolo.chamado}">Excluir</button>
+                          </div>
+                      </div>
+                  </td>
+                    
+                </tr>
+                   
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+    <!-- Vendor JS Files -->
+    <script src="static/assets/vendor/aos/aos.js"></script>
+    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="static/assets/js/script.js"></script>
+
+</body>
+
+</html>
